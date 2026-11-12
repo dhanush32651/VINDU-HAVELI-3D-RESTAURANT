@@ -1,0 +1,34 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+:root, [data-theme='dark'] { --royal: 9 9 9; --charcoal: 21 19 15; --gold: 214 173 101; --champagne: 242 214 156; --ivory: 244 232 203; --taupe: 170 163 151; --shadow: 0 0 0 / .6; }
+[data-theme='light'] { --royal: 251 246 234; --charcoal: 255 255 255; --gold: 160 112 36; --champagne: 133 88 18; --ivory: 38 30 20; --taupe: 107 99 85; --shadow: 90 60 20 / .18; }
+[data-theme='evening'] { --royal: 26 15 31; --charcoal: 42 24 48; --gold: 242 166 90; --champagne: 255 208 138; --ivory: 251 230 208; --taupe: 201 169 176; --shadow: 0 0 0 / .5; }
+html { scroll-behavior: smooth; }
+body { background: rgb(var(--royal)); color: rgb(var(--ivory)); font-family: var(--font-sans), sans-serif; transition: background .4s, color .4s; }
+::-webkit-scrollbar { height: 6px; width: 6px; } ::-webkit-scrollbar-thumb { background: rgb(var(--gold)); border-radius: 9px; }
+html.has-cursor, html.has-cursor * { cursor: none !important; }
+@layer components {
+  .gold-text { @apply bg-clip-text text-transparent; background-image: linear-gradient(120deg, rgb(var(--gold)), rgb(var(--champagne)) 50%, rgb(var(--gold))); }
+  .btn-gold { @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-royal transition hover:shadow-glow; background-image: linear-gradient(120deg, rgb(var(--gold)), rgb(var(--champagne))); }
+  .btn-ghost { @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold/60 px-5 py-2.5 text-sm text-champagne transition hover:bg-gold/10 hover:shadow-glow; }
+  .panel { @apply rounded-2xl border border-gold/20 bg-charcoal; box-shadow: 0 20px 50px -25px rgb(var(--shadow)); }
+  .section { @apply mx-auto max-w-7xl px-5 py-16 md:py-24; }
+  .input { @apply w-full rounded-lg border border-gold/25 bg-royal px-3 py-2.5 text-sm text-ivory outline-none placeholder:text-taupe focus:border-gold; }
+  .chip { @apply shrink-0 rounded-full border border-gold/30 px-4 py-1.5 text-sm text-ivory transition hover:border-gold; }
+  .chip-on { @apply border-gold bg-gold text-royal; }
+}
+@keyframes floatUp { 0% { transform: translateY(0); opacity: 0 } 20% { opacity: .8 } 100% { transform: translateY(-110vh); opacity: 0 } }
+@keyframes spin { to { transform: rotate(360deg) } }
+.particle { position: absolute; bottom: -10px; border-radius: 9999px; background: rgb(var(--champagne)); animation: floatUp linear infinite; }
+
+/* ---- Added: text stays readable when a section sits on a background video / dimmed photo ---- */
+[data-media='video'], [data-media='image'] { --royal: 9 9 9; --charcoal: 21 19 15; --gold: 214 173 101; --champagne: 242 214 156; --ivory: 244 232 203; --taupe: 205 198 186; color: rgb(var(--ivory)); }
+@keyframes chatIn { from { opacity: 0; transform: translateY(14px) scale(.96) } to { opacity: 1; transform: none } }
+@keyframes msgIn { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
+.msg-in { animation: msgIn .25s ease-out both; }
+/* Printing a receipt prints only the receipt */
+@media print {
+  body * { visibility: hidden !important; }
+  .print-area, .print-area * { visibility: visible !important; }
+  .print-area { position: absolute !important; left: 0; top: 0; width: 100%; box-shadow: none !important; }
+  .no-print { display: none !important; }
+}
